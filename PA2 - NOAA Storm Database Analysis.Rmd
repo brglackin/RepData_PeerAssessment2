@@ -9,7 +9,8 @@ We first change the working directory to the repository location and load our da
 
 ```{r echo+TRUE}
 setwd("~/GitHub/RepData_PeerAssessment2")
-data<-read.csv("data/repdata-data-StormData.csv.bz2",nrows=5000)
+#data<-read.csv("data/repdata-data-StormData.csv.bz2",nrows=5000)
+data<-read.csv(bzfile("data/repdata-data-StormData.csv.bz2"),header=TRUE)
 ```
 
 ## Results
