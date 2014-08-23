@@ -31,7 +31,6 @@ stormData$CROPDMG <- ifelse(stormData$CROPDMGEXP %in% c("k","K"),stormData$CROPD
 stormData$PROPDMGEXP<-NULL
 stormData$CROPDMGEXP<-NULL
 
-
 ```
 
 ## Results
