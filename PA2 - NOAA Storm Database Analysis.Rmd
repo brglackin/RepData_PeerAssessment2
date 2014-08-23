@@ -10,6 +10,7 @@ We first change the working directory to the repository location and load our da
 ```{r echo=TRUE}
 library(plyr)
 library(reshape2)
+library(ggplot2)
 
 setwd("~/GitHub/RepData_PeerAssessment2")
 #data<-read.csv(bzfile("data/repdata-data-StormData.csv.bz2"),header=TRUE, nrows=200000)
@@ -37,28 +38,25 @@ summedStormData<-ddply(stormData,~EVTYPE,summarise,FATALITIES=sum(FATALITIES),IN
 
 ## Results
 ```{r echo=TRUE}
+
 summedStormData<-arrange(summedStormData,desc(summedStormData$FATALITIES))
-#head(summedStormData,10)
 data$EVTYPE<-as.character(data$EVTYPE)
-data<-summedStormData[1:10,]
+data<-summedStormData[1:5,]
 data
 
 summedStormData<-arrange(summedStormData,desc(summedStormData$INJURIES))
-#head(summedStormData,10)
 data$EVTYPE<-as.character(data$EVTYPE)
-data<-summedStormData[1:10,]
+data<-summedStormData[1:5,]
 data
 
 summedStormData<-arrange(summedStormData,desc(summedStormData$PROPDMG))
-#head(summedStormData,10)
 data$EVTYPE<-as.character(data$EVTYPE)
-data<-summedStormData[1:10,]
+data<-summedStormData[1:5,]
 data
 
 summedStormData<-arrange(summedStormData,desc(summedStormData$CROPDMG))
-#head(summedStormData,10)
 data$EVTYPE<-as.character(data$EVTYPE)
-data<-summedStormData[1:10,]
+data<-summedStormData[1:5,]
 data
 
 ```
