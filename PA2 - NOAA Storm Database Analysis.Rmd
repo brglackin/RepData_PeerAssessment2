@@ -7,13 +7,13 @@ synopsis synopsis
 ## Data Processing
 We first change the working directory to the repository location and load our datafile.
 
-```{r echo+TRUE}
+```{r echo=TRUE}
 library(plyr)
 library(reshape2)
 
 setwd("~/GitHub/RepData_PeerAssessment2")
-#data<-read.csv("data/repdata-data-StormData.csv.bz2",nrows=5000)
-data<-read.csv(bzfile("data/repdata-data-StormData.csv.bz2"),header=TRUE, nrows=5000)
+#data<-read.csv(bzfile("data/repdata-data-StormData.csv.bz2"),header=TRUE, nrows=200000)
+data<-read.csv(bzfile("data/repdata-data-StormData.csv.bz2"),header=TRUE, nrows=300000)
 stormData<-data[,c("EVTYPE","FATALITIES","INJURIES","PROPDMG","PROPDMGEXP","CROPDMG","CROPDMGEXP")]
 
 stormData$PROPDMG <- ifelse(stormData$PROPDMGEXP %in% c("k","K"),stormData$PROPDMG * 1000,    
@@ -31,7 +31,35 @@ stormData$CROPDMG <- ifelse(stormData$CROPDMGEXP %in% c("k","K"),stormData$CROPD
 stormData$PROPDMGEXP<-NULL
 stormData$CROPDMGEXP<-NULL
 
-head(stormData)
+summedStormData<-ddply(stormData,~EVTYPE,summarise,FATALITIES=sum(FATALITIES),INJURIES=sum(INJURIES), PROPDMG=sum(PROPDMG),CROPDMG=sum(CROPDMG))
+
 ```
 
 ## Results
+```{r echo=TRUE}
+summedStormData<-arrange(summedStormData,desc(summedStormData$FATALITIES))
+#head(summedStormData,10)
+data$EVTYPE<-as.character(data$EVTYPE)
+data<-summedStormData[1:10,]
+data
+
+summedStormData<-arrange(summedStormData,desc(summedStormData$INJURIES))
+#head(summedStormData,10)
+data$EVTYPE<-as.character(data$EVTYPE)
+data<-summedStormData[1:10,]
+data
+
+summedStormData<-arrange(summedStormData,desc(summedStormData$PROPDMG))
+#head(summedStormData,10)
+data$EVTYPE<-as.character(data$EVTYPE)
+data<-summedStormData[1:10,]
+data
+
+summedStormData<-arrange(summedStormData,desc(summedStormData$CROPDMG))
+#head(summedStormData,10)
+data$EVTYPE<-as.character(data$EVTYPE)
+data<-summedStormData[1:10,]
+data
+
+```
+
