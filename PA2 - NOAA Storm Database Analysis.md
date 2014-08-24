@@ -1,5 +1,7 @@
-# Reproducible Research: Peer Assessment 2
-## Tornadoes, Floods and Ice - The Impact of Storms on the Health and Economy of the USA
+---
+output: html_document
+---
+## Tornadoes, Floods, Drought and Ice - The Impact of Storms on the Health and Economy of the USA
 
 Storms may cause both health and economic problems for communities, resulting in fatalities, injuries and property and crop damage. Data on storms and severe weather has been tracked by the U.S. National Oceanic and Atmospheric Administration (NOAA) in their storm database, storing characteristics of major storms and weather events in the United States. An analysis of this data was performed to determine the leading causes of storm-related health and economic damage. It was found that tornadoes are the leading cause of health-related storm damage, and also the primary cause of property damage caused by storms, with floods the next largest factor. The largest effect on crop damage was seen to be from drought with floods and ice being the next largest factors.
 
@@ -17,7 +19,6 @@ The first step was to load the original bzipped file into R. This dataset repres
 
 ```r
 setwd("~/GitHub/RepData_PeerAssessment2")
-#data<-read.csv(bzfile("data/repdata-data-StormData.csv.bz2"),header=TRUE, nrows=150000)
 data<-read.csv(bzfile("data/repdata-data-StormData.csv.bz2"),header=TRUE)
 ```
 
@@ -193,6 +194,6 @@ g + theme(axis.text.x  = element_text(angle=45, vjust=0.5))
 ## Further Analysis
 During the course of this analysis, the various storm categories were considered in the format they existed in the original dataset. From observations of the data, there seems to be some ambiguity and duplication of the categories, as seen in the anlysis of crop damage where there are separate flood, river flood and flash flood categories. Similar patterns were seen for wind, heat, drought ...etc. Additional analysis after a cleanup of the data, with similar categories grouped together, could prove informative.
 
-In addition, analysis could be performed whereby fatalities and injuries are grouped together to obtain a single health dmaage score, and likewise for a grouping of crop and property damages to obtain a single economic damage score.
+In addition, analysis could be performed whereby fatalities and injuries are grouped together to obtain a single health damage score, and likewise for a grouping of crop and property damages to obtain a single economic damage score.
 
 
