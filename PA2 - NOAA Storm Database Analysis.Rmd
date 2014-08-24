@@ -9,13 +9,13 @@ We first change the working directory to the repository location and load our da
 
 ```{r echo=TRUE}
 library(plyr)
-library(reshape2)
 library(ggplot2)
 
 setwd("~/GitHub/RepData_PeerAssessment2")
 #data<-read.csv(bzfile("data/repdata-data-StormData.csv.bz2"),header=TRUE, nrows=200000)
 data<-read.csv(bzfile("data/repdata-data-StormData.csv.bz2"),header=TRUE, nrows=300000)
 stormData<-data[,c("EVTYPE","FATALITIES","INJURIES","PROPDMG","PROPDMGEXP","CROPDMG","CROPDMGEXP")]
+data<-NULL
 
 stormData$PROPDMG <- ifelse(stormData$PROPDMGEXP %in% c("k","K"),stormData$PROPDMG * 1000,    
      ifelse(stormData$PROPDMGEXP %in% c("m","M"),stormData$PROPDMG * 1000000,
@@ -33,31 +33,43 @@ stormData$PROPDMGEXP<-NULL
 stormData$CROPDMGEXP<-NULL
 
 summedStormData<-ddply(stormData,~EVTYPE,summarise,FATALITIES=sum(FATALITIES),INJURIES=sum(INJURIES), PROPDMG=sum(PROPDMG),CROPDMG=sum(CROPDMG))
+stormData<-NULL
 
 ```
 
 ## Results
 ```{r echo=TRUE}
+library(ggplot2)
 
 summedStormData<-arrange(summedStormData,desc(summedStormData$FATALITIES))
-data$EVTYPE<-as.character(data$EVTYPE)
-data<-summedStormData[1:5,]
-data
+fatalitiesData<-summedStormData[1:10,]
+fatalitiesData
+g<-ggplot(fatalitiesData, aes(x=reorder(EVTYPE, -FATALITIES), y=FATALITIES)) 
+g + geom_bar(stat="identity",width=.5)
+g + labs(x="Event", y="Fatalities", title="Top 10 Causes of Storm-Related Fatalities") 
+g + theme(axis.text.x  = element_text(angle=45, vjust=0.5))
 
 summedStormData<-arrange(summedStormData,desc(summedStormData$INJURIES))
-data$EVTYPE<-as.character(data$EVTYPE)
-data<-summedStormData[1:5,]
-data
+injuriesData<-summedStormData[1:10,]
+injuriesData
 
 summedStormData<-arrange(summedStormData,desc(summedStormData$PROPDMG))
-data$EVTYPE<-as.character(data$EVTYPE)
-data<-summedStormData[1:5,]
-data
+propDamageData<-summedStormData[1:10,]
+propDamageData$PROPDMG <- propDamageData$PROPDMG/1000000
+propDamageData
+g <- ggplot(propDamageData, aes(x=reorder(EVTYPE, -PROPDMG), y=PROPDMG))
+g + geom_bar(stat="identity",width=.5) 
+g + labs(x="Event", y="Property Damage", title="Top 10 Causes of Storm-Related Property Damage")
+g + theme(axis.text.x  = element_text(angle=45, vjust=0.5))
 
 summedStormData<-arrange(summedStormData,desc(summedStormData$CROPDMG))
-data$EVTYPE<-as.character(data$EVTYPE)
-data<-summedStormData[1:5,]
-data
+cropDamageData<-summedStormData[1:10,]
+cropDamageData$CROPDMG <- cropDamageData$CROPDMG/1000000
+cropDamageData
+g<-ggplot(cropDamageData, aes(x=reorder(EVTYPE, -CROPDMG), y=CROPDMG))
+g + geom_bar(stat="identity",width=.5)
+g + labs(x="Event", y="Crop Damage", title="Top 10 Causes of Storm-Related Crop Damage")
+g + theme(axis.text.x  = element_text(angle=45, vjust=0.5))
 
 ```
 
